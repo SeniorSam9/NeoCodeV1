@@ -12,6 +12,7 @@ const ANTHROPIC_MODEL_CONFIG = {
   slugs: ["anthropic/claude-3-7-sonnet", "anthropic/claude-4-sonnet"],
   apiKeyInputName: "ANTHROPIC_API_KEY",
 };
+
 const OPENAI_MODEL_CONFIG = {
   slugs: ["openai/gpt-4.1", "openai/o3", "openai/gpt-4.1-mini"],
   apiKeyInputName: "OPENAI_API_KEY",

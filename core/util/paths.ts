@@ -150,7 +150,7 @@ export function getConfigTsPath(): string {
       JSON.stringify({
         name: "continue-config",
         version: "1.0.0",
-        description: "My Continue Configuration",
+        description: "My NeoCode Configuration",
         main: "config.js",
       }),
     );

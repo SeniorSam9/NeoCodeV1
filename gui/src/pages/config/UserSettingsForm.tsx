@@ -241,7 +241,7 @@ export function UserSettingsForm() {
               tooltip="If off, shows responses as raw text."
             />
 
-            <ToggleSwitch
+            {/* <ToggleSwitch
               isToggled={allowAnonymousTelemetry}
               disabled={disableTelemetryToggle}
               onToggle={() =>
@@ -251,7 +251,7 @@ export function UserSettingsForm() {
               }
               text="Allow Anonymous Telemetry"
               tooltip="If on, allows Continue to send anonymous telemetry."
-            />
+            /> */}
 
             <ToggleSwitch
               isToggled={!disableIndexing}
@@ -473,7 +473,7 @@ export function UserSettingsForm() {
                       onlyUseSystemMessageTools: !onlyUseSystemMessageTools,
                     })
                   }
-                  tooltip="If on, Continue will not attempt to use native tool calling and will only use system message tools."
+                  tooltip="If on, NeoCode will not attempt to use native tool calling and will only use system message tools."
                   text="Only use system message tools"
                 />
 
