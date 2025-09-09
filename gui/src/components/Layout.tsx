@@ -16,18 +16,14 @@ import { saveCurrentSession } from "../redux/thunks/session";
 import { fontSize, isMetaEquivalentKeyPressed } from "../util";
 import { incrementFreeTrialCount } from "../util/freeTrial";
 import { ROUTES } from "../util/navigation";
+import { FatalErrorIndicator } from "./config/FatalErrorNotice";
 import TextDialog from "./dialogs";
 import { GenerateRuleDialog } from "./GenerateRuleDialog";
 import { LumpProvider } from "./mainInput/Lump/LumpContext";
 import { useMainEditor } from "./mainInput/TipTapEditor";
-import {
-  isNewUserOnboarding,
-  OnboardingCard,
-  useOnboardingCard,
-} from "./OnboardingCard";
+import { isNewUserOnboarding, useOnboardingCard } from "./OnboardingCard";
 import OSRContextMenu from "./OSRContextMenu";
 import PostHogPageView from "./PosthogPageView";
-import { FatalErrorIndicator } from "./config/FatalErrorNotice";
 
 const LayoutTopDiv = styled(CustomScrollbarDiv)`
   height: 100%;
@@ -153,21 +149,21 @@ const Layout = () => {
     [],
   );
 
-  useWebviewListener(
-    "freeTrialExceeded",
-    async () => {
-      dispatch(setShowDialog(true));
-      onboardingCard.setActiveTab(OnboardingModes.MODELS_ADD_ON);
-      dispatch(
-        setDialogMessage(
-          <div className="flex-1">
-            <OnboardingCard isDialog showFreeTrialExceededAlert />
-          </div>,
-        ),
-      );
-    },
-    [],
-  );
+  // useWebviewListener(
+  //   "freeTrialExceeded",
+  //   async () => {
+  //     dispatch(setShowDialog(true));
+  //     onboardingCard.setActiveTab(OnboardingModes.MODELS_ADD_ON);
+  //     dispatch(
+  //       setDialogMessage(
+  //         <div className="flex-1">
+  //           <OnboardingCard isDialog showFreeTrialExceededAlert />
+  //         </div>,
+  //       ),
+  //     );
+  //   },
+  //   [],
+  // );
 
   useWebviewListener(
     "setupApiKey",
@@ -268,6 +264,10 @@ const Layout = () => {
                   gridTemplateRows: "1fr auto",
                 }}
               >
+                <div className="flex flex-col items-center justify-center">
+                  <h1>NeoCode</h1>
+                  <h4>The Leading NeoAI Coding Agent</h4>
+                </div>
                 <TextDialog
                   showDialog={showDialog}
                   onEnter={() => {
@@ -278,12 +278,9 @@ const Layout = () => {
                   }}
                   message={dialogMessage}
                 />
-
-                <GridDiv>
-                  <PostHogPageView />
-                  <Outlet />
-                  <FatalErrorIndicator />
-                </GridDiv>
+                <PostHogPageView />
+                <Outlet />
+                <FatalErrorIndicator />
               </div>
               <div style={{ fontSize: fontSize(-4) }} id="tooltip-portal-div" />
             </LumpProvider>

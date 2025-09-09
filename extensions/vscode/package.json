@@ -4,8 +4,8 @@
   "author": "Neo",
   "version": "1.3.4",
   "repository": {
-    "type": "git",
-    "url": "https://github.com/continuedev/continue"
+    "type": "",
+    "url": ""
   },
   "extensionKind": [
     "ui",
@@ -15,8 +15,8 @@
     "url": "https://github.com/continuedev/continue/issues",
     "email": "nate@continue.dev"
   },
-  "homepage": "https://continue.dev",
-  "qna": "https://github.com/continuedev/continue/issues/new/choose",
+  "homepage": "",
+  "qna": "",
   "license": "Apache-2.0",
   "displayName": "NeoCode",
   "pricing": "Free",
