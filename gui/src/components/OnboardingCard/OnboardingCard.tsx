@@ -82,6 +82,6 @@ export function OnboardingCard({
     //     />
     //   </div>
     // </ReusableCard>
-    <h1>NeoCode</h1>
+    <h1></h1>
   );
 }
