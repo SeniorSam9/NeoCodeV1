@@ -16,6 +16,7 @@ type LocalStorageTypes = {
   shownProfilesIntroduction: boolean;
   disableIndexing: boolean;
   hasExitedFreeTrial: boolean;
+  modelConfigured: boolean;
 };
 
 export enum LocalStorageKey {

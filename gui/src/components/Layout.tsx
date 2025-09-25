@@ -6,6 +6,7 @@ import { CustomScrollbarDiv } from ".";
 import { AuthProvider } from "../context/Auth";
 import { IdeMessengerContext } from "../context/IdeMessenger";
 import { LocalStorageProvider } from "../context/LocalStorage";
+import AddModelForm from "../forms/AddModelForm";
 import TelemetryProviders from "../hooks/TelemetryProviders";
 import { useWebviewListener } from "../hooks/useWebviewListener";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
@@ -15,6 +16,7 @@ import { enterEdit, exitEdit } from "../redux/thunks/edit";
 import { saveCurrentSession } from "../redux/thunks/session";
 import { fontSize, isMetaEquivalentKeyPressed } from "../util";
 import { incrementFreeTrialCount } from "../util/freeTrial";
+import { getLocalStorage, setLocalStorage } from "../util/localStorage";
 import { ROUTES } from "../util/navigation";
 import { FatalErrorIndicator } from "./config/FatalErrorNotice";
 import TextDialog from "./dialogs";
@@ -40,6 +42,7 @@ const GridDiv = styled.div`
 
 const Layout = () => {
   const [showStagingIndicator, setShowStagingIndicator] = useState(false);
+  const [showAddModelForm, setShowAddModelForm] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -51,6 +54,21 @@ const Layout = () => {
 
   const showDialog = useAppSelector((state) => state.ui.showDialog);
   const isInEdit = useAppSelector((store) => store.session.isInEdit);
+
+  useEffect(() => {
+    const modelConfigured = getLocalStorage("modelConfigured");
+    if (modelConfigured === undefined) {
+      setLocalStorage("modelConfigured", false);
+      setShowAddModelForm(true);
+    } else if (modelConfigured === false) {
+      setShowAddModelForm(true);
+    }
+  }, []);
+
+  const handleModelConfigured = () => {
+    setLocalStorage("modelConfigured", true);
+    setShowAddModelForm(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -149,22 +167,6 @@ const Layout = () => {
     [],
   );
 
-  // useWebviewListener(
-  //   "freeTrialExceeded",
-  //   async () => {
-  //     dispatch(setShowDialog(true));
-  //     onboardingCard.setActiveTab(OnboardingModes.MODELS_ADD_ON);
-  //     dispatch(
-  //       setDialogMessage(
-  //         <div className="flex-1">
-  //           <OnboardingCard isDialog showFreeTrialExceededAlert />
-  //         </div>,
-  //       ),
-  //     );
-  //   },
-  //   [],
-  // );
-
   useWebviewListener(
     "setupApiKey",
     async () => {
@@ -262,6 +264,9 @@ const Layout = () => {
                   minHeight: "100%",
                   display: "grid",
                   gridTemplateRows: "1fr auto",
+                  filter: showAddModelForm ? "blur(6px)" : "none",
+                  pointerEvents: showAddModelForm ? "none" : "auto",
+                  transition: "filter 0.2s",
                 }}
               >
                 <div className="flex flex-col items-center justify-center">
@@ -282,6 +287,32 @@ const Layout = () => {
                 <Outlet />
                 <FatalErrorIndicator />
               </div>
+              {showAddModelForm && (
+                <div
+                  style={{
+                    position: "fixed",
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    zIndex: 9999,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "rgba(30, 30, 30, 0.4)", // semi-transparent overlay
+                  }}
+                >
+                  <div
+                    className="w-full max-w-xl"
+                    style={{
+                      width: "600px", // Increased width
+                      maxWidth: "90vw",
+                    }}
+                  >
+                    <AddModelForm onDone={handleModelConfigured} />
+                  </div>
+                </div>
+              )}
               <div style={{ fontSize: fontSize(-4) }} id="tooltip-portal-div" />
             </LumpProvider>
           </LayoutTopDiv>
